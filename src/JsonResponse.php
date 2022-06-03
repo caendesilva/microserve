@@ -13,6 +13,6 @@ class JsonResponse extends Response
     {
         header('Content-Type: application/json');
 
-        echo $this;
+        parent::send();
     }
 }
