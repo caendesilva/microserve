@@ -50,8 +50,11 @@ class Response implements ResponseInterface
     /**
      * Static facade to create and send a new Response
      */
-    public static function make(int $statusCode = 200, string $statusMessage = 'OK', array $data = []): void
+    public static function make(int $statusCode = 200, string $statusMessage = 'OK', array $data = []): static
     {
-        (new self($statusCode, $statusMessage, $data))->send();
+        $response = new static($statusCode, $statusMessage, $data);
+        $response->send();
+
+        return $response;
     }
 }
