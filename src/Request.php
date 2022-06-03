@@ -2,9 +2,10 @@
 
 namespace Desilva\Microserve;
 
+use Desilva\Microserve\Contracts\RequestInterface;
 use JetBrains\PhpStorm\ArrayShape;
 
-class Request
+class Request implements RequestInterface
 {
     public string $method;
     public string $path;
