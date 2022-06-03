@@ -24,9 +24,18 @@ class Request implements RequestInterface
         return new static($_REQUEST);
     }
 
-    public function __get(string $key): ?string
+    public function __get(string $key)
     {
-        return $this->data[$key] ?? null;
+        return $this->get($key);
+    }
+
+    public function get(?string $key, $default = null)
+    {
+        if ($key === null) {
+            return $this->data ?? [];
+        }
+
+        return $this->data[$key] ?? $default;
     }
 
     #[ArrayShape(['method' => "string", 'path' => "string", 'data' => "array"])]
