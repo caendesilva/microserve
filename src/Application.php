@@ -22,9 +22,4 @@ class Application
 
         return $response->getData('statusCode');
     }
-
-    public function getRequest(): Request
-    {
-        return $this->request;
-    }
 }
