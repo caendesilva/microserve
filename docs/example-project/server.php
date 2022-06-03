@@ -1,5 +1,8 @@
 <?php
 
+// This file emulates the Apache mod_rewrite functionality
+// by routing all incoming requests to your HttpKernel.
+
 // Load the composer autoloader
 require_once __DIR__ . '/vendor/autoload.php';
 
