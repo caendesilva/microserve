@@ -4,7 +4,7 @@
 // by routing all incoming requests to your HttpKernel.
 
 // Load the composer autoloader
-require_once __DIR__ . '/vendor/autoload.php';
+require_once __DIR__.'/vendor/autoload.php';
 
 // Register the HttpKernel class
 $kernel = \App\HttpKernel::class;

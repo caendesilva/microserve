@@ -48,7 +48,7 @@ class Response implements ResponseInterface
     }
 
     /**
-     * Static facade to create and send a new Response
+     * Static facade to create and send a new Response.
      */
     public static function make(int $statusCode = 200, string $statusMessage = 'OK', array $data = []): static
     {
