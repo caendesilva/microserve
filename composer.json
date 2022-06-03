@@ -1,0 +1,42 @@
+{
+    "name": "desilva/microserve",
+    "description": "Lightweight API for creating PHP application servers",
+    "keywords": [
+        "desilva",
+        "microserve"
+    ],
+    "homepage": "https://github.com/desilva/microserve",
+    "license": "MIT",
+    "type": "library",
+    "authors": [
+        {
+            "name": "Caen De Silva",
+            "email": "caen@desilva.se",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": "^7.4|^8.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^9.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Desilva\\Microserve\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Desilva\\Microserve\\Tests\\": "tests"
+        }
+    },
+    "scripts": {
+        "test": "vendor/bin/phpunit",
+        "test-coverage": "vendor/bin/phpunit --coverage-html coverage"
+
+    },
+    "config": {
+        "sort-packages": true
+    }
+}
