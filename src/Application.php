@@ -9,18 +9,21 @@ class Application
     protected Request $request;
     protected HttpKernelInterface $routeHandler;
 
-    public function __construct(HttpKernelInterface $routeHandler = null)
+    public function __construct(HttpKernelInterface $routeHandler)
     {
-        $this->routeHandler = $routeHandler ?? new HttpKernel();
+        $this->routeHandler = $routeHandler;
         $this->request = Request::capture();
     }
-
-    public function handle(): Response
+    
+    public function handle(): int
     {
-        return (new $this->routeHandler())->handle($this->request);
+        $response = $this->routeHandler->handle($this->request);
+        $response->send();
+
+        return $response->getData('statusCode');
     }
 
-    public function request(): Request
+    public function getRequest(): Request
     {
         return $this->request;
     }
