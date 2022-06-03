@@ -10,11 +10,11 @@ class Microserve
      * Microserve does not know how to handle the request,
      * so you need to supply a custom handler, usually the HttpKernel.
      *
-     * @param string $routeHandler
+     * @param string $kernel
      * @return Application
      */
-    public static function boot(string $routeHandler): Application
+    public static function boot(string $kernel): Application
     {
-        return (new Application(new $routeHandler()));
+        return (new Application(new $kernel()));
     }
 }

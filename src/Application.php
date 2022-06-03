@@ -7,17 +7,17 @@ use Desilva\Microserve\Contracts\HttpKernelInterface;
 class Application
 {
     protected Request $request;
-    protected HttpKernelInterface $routeHandler;
+    protected HttpKernelInterface $kernel;
 
-    public function __construct(HttpKernelInterface $routeHandler)
+    public function __construct(HttpKernelInterface $kernel)
     {
-        $this->routeHandler = $routeHandler;
+        $this->kernel = $kernel;
         $this->request = Request::capture();
     }
     
     public function handle(): int
     {
-        $response = $this->routeHandler->handle($this->request);
+        $response = $this->kernel->handle($this->request);
         $response->send();
 
         return $response->getData('statusCode');
