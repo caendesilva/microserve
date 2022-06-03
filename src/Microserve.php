@@ -2,14 +2,19 @@
 
 namespace Desilva\Microserve;
 
-use Desilva\Microserve\Contracts\HttpKernelInterface;
-
 class Microserve
 {
     public const VERSION = 'dev-master';
 
-    public static function boot()
+    /**
+     * Microserve does not know how to handle the request,
+     * so you need to supply a custom handler, usually the HttpKernel.
+     *
+     * @param string $routeHandler
+     * @return Application
+     */
+    public static function boot(string $routeHandler): Application
     {
-        return (new Application())->handle();
+        return (new Application(new $routeHandler()));
     }
 }
