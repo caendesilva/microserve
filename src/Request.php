@@ -19,9 +19,9 @@ class Request implements RequestInterface
         $this->path = urldecode(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH));
     }
 
-    public static function capture(): Request
+    public static function capture(): static
     {
-        return new self($_REQUEST);
+        return new static($_REQUEST);
     }
 
     public function __get(string $key): ?string
