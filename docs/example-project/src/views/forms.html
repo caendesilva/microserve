@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang='en'>
+<head>
+    <meta charset='UTF-8'>
+    <meta name='viewport'
+          content='width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0'>
+    <meta http-equiv='X-UA-Compatible' content='ie=edge'>
+    <title>Forms</title>
+</head>
+<body>
+<main style='padding: 20px 40px;'>
+    <h1>Interacting with the request</h1>
+
+    <p>
+        Try using the form below to interact with the server.
+    </p>
+
+    <form action="" method="GET">
+        <label for="name">What is your name?</label>
+        <input type="text" name="name" id="name">
+        <input type="submit" value="Submit">
+    </form>
+
+    <p>
+        <strong>
+            {{% Request Name %}}
+        </strong>
+    </p>
+</main>
+</body>
+</html>
