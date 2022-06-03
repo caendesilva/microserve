@@ -8,7 +8,7 @@ class Microserve
 
     /**
      * Microserve does not know how to handle the request,
-     * so you need to supply a custom handler, usually the HttpKernel.
+     * so you'll need an HttpKernel to handle routing.
      *
      * @param string $kernel
      * @return Application

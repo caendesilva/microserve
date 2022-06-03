@@ -30,3 +30,16 @@ or similar to handle the requests.
 The recommended way to implement a server  is to route all HTTP requests to the `server.php`script.
 This script should register the Composer autoloader, run the `bootstrap.php` script, then finally
 create a new `Application` instance to capture and handle the incoming HTTP request.
+
+Here's an example of a `server.php` script:
+```php
+require_once 'vendor/autoload.php';
+
+$app = \Desilva\Microserve\Microserve::boot(\App\Http\MyHttpKernel::class);
+$app->handle();
+```
+
+The `boot()` method will construct your Kernel, and then return an `Application` instance containing it.
+
+We then call the `handle()` method which will run the handle method in your Kernel,
+which returns a `Response` object, and sends the HTTP response to the client.
