@@ -15,6 +15,8 @@ The name comes from it being based on [Pikoserve]https://github.com/caendesilva/
 
 ## Usage
 
+Please see the example project in the [`docs`](docs/README.md) directory.
+
 ### High level overview
 
 You'll need to take care of bootstrapping yourself as each use case is different.
