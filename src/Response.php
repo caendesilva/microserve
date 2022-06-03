@@ -24,6 +24,15 @@ class Response implements ResponseInterface
         return $this->responseData['body'];
     }
 
+    public function withHeaders(array $headers): self
+    {
+        foreach ($headers as $header => $value) {
+            header("$header: $value");
+        }
+
+        return $this;
+    }
+
     public function send(): void
     {
         echo $this;
