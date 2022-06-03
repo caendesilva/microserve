@@ -46,4 +46,12 @@ class Response implements ResponseInterface
 
         return $this->responseData;
     }
+
+    /**
+     * Static facade to create and send a new Response
+     */
+    public static function make(int $statusCode = 200, string $statusMessage = 'OK', array $data = []): void
+    {
+        (new self($statusCode, $statusMessage, $data))->send();
+    }
 }
