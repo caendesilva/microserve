@@ -8,7 +8,7 @@ abstract class HttpKernel implements HttpKernelInterface
 {
     public function handle(Request $request): Response
     {
-        return new Response(200, 'OK', [
+        return Response::make(200, 'OK', [
             'body' => 'Hello World!',
         ]);
     }
