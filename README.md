@@ -1,6 +1,8 @@
 # Microserve - Experimental Pikoserve 2.0 Framework
 
-An extension of Pikoserve, providing an API for defining PHP application servers.
+An extension of Pikoserve, providing an API for creating PHP application servers.
+
+Minimal. Agnostic. Zero dependencies.
 
 ## About
 
