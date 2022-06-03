@@ -38,7 +38,7 @@ class Response implements ResponseInterface
         echo $this;
     }
 
-    public function getData(?string $key = null): mixed
+    public function __get(?string $key = null): mixed
     {
         if ($key) {
             return $this->responseData[$key] ?? null;
