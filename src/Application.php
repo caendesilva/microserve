@@ -15,11 +15,8 @@ class Application
         $this->request = Request::capture();
     }
     
-    public function handle(): int
+    public function handle(): Response
     {
-        $response = $this->kernel->handle($this->request);
-        $response->send();
-
-        return $response->getData('statusCode');
+        return $this->kernel->handle($this->request);
     }
 }
