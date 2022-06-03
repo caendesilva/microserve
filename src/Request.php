@@ -38,13 +38,13 @@ class Request implements RequestInterface
         return $this->data[$key] ?? $default;
     }
 
-    #[ArrayShape(['method' => "string", 'path' => "string", 'data' => "array"])]
+    #[ArrayShape(['method' => 'string', 'path' => 'string', 'data' => 'array'])]
     public function __serialize(): array
     {
         return [
             'method' => $this->method,
-            'path' => $this->path,
-            'data' => $this->data,
+            'path'   => $this->path,
+            'data'   => $this->data,
         ];
     }
 }

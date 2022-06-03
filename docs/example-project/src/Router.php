@@ -5,10 +5,9 @@ namespace App;
 use Desilva\Microserve\JsonResponse;
 use Desilva\Microserve\Request;
 use Desilva\Microserve\Response;
-use PHPUnit\Util\Json;
 
 /**
- * Simple Router Proof of Concept
+ * Simple Router Proof of Concept.
  */
 class Router
 {
@@ -33,7 +32,7 @@ class Router
             ]);
         }
 
-        if  ($this->is('forms')) {
+        if ($this->is('forms')) {
             return Response::make(200, 'OK', [
                 'body' => $this->handleFormPage(),
             ]);
@@ -44,7 +43,7 @@ class Router
 
     protected function is(string $path): bool
     {
-        return $this->request->path === '/' . $path;
+        return $this->request->path === '/'.$path;
     }
 
     protected function handleFormPage(): string
@@ -52,7 +51,7 @@ class Router
         $html = file_get_contents(__DIR__.'/views/forms.html');
 
         return ($this->request->get('name', false))
-            ? str_replace('{{% Request Name %}}', 'Your name is: ' . htmlspecialchars($this->request->get('name')), $html)
+            ? str_replace('{{% Request Name %}}', 'Your name is: '.htmlspecialchars($this->request->get('name')), $html)
             : str_replace('{{% Request Name %}}', '', $html);
     }
 }

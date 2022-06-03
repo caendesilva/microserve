@@ -14,7 +14,7 @@ class Application
         $this->kernel = $kernel;
         $this->request = Request::capture();
     }
-    
+
     public function handle(): Response
     {
         return $this->kernel->handle($this->request);

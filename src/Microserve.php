@@ -11,10 +11,11 @@ class Microserve
      * so you'll need an HttpKernel to handle routing.
      *
      * @param string $kernel
+     *
      * @return Application
      */
     public static function boot(string $kernel): Application
     {
-        return (new Application(new $kernel()));
+        return new Application(new $kernel());
     }
 }
