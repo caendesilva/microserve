@@ -4,8 +4,6 @@ namespace Desilva\Microserve;
 
 class Microserve
 {
-    public const VERSION = 'dev-master';
-
     /**
      * Microserve does not know how to handle the request,
      * so you'll need an HttpKernel to handle routing.
