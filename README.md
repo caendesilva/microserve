@@ -1,5 +1,8 @@
 # Microserve - Experimental Pikoserve 2.0 Framework
 
+![](https://img.shields.io/packagist/dt/desilva/microserve)
+![](https://img.shields.io/packagist/v/desilva/microserve)
+
 An extension of Pikoserve, providing an API for creating PHP application servers.
 
 Minimal. Agnostic. Zero dependencies.
