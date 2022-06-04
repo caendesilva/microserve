@@ -43,7 +43,7 @@ $app->handle() // Process the request and create the response
 The `boot()` method will construct your Kernel, and then return an `Application` instance containing it.
 
 We then call the `handle()` method which will inject a `Request` object, then call the Kernel handle method
-which returns a `Response` object, and sends the HTTP response to the client.
+which returns a `Response` object which is used to send the HTTP response to the client.
 
 HttpKernel example:
 ```php
