@@ -12,9 +12,9 @@ through command-line actions and code snippets.
 	$ cd example-project
 	$ composer require desilva/microserve
 
-## Steb 1b: Configure composer settings
+## Step 1b: Configure composer settings
 
-We'll use Composer for autoloading our classes. Add the following to your `composer.json` file:
+We'll use Composer to autoload our classes. Add the following to your `composer.json` file:
 
 ```json
 "autoload": {
@@ -115,7 +115,7 @@ If you are doing this in a production environment, you can use mod_rewrite to
 redirect all requests to the `server.php` file. Microserve will inject a
 `Request` instance to the `HttpKernel` which you can use for routing.
 
->warn Remember to keep your source files outside of your public HTML directory!
+>warn Remember to keep your source files outside your public HTML directory!
 
 
 ## Step 4: Next steps
