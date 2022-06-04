@@ -36,7 +36,8 @@ Here's an example of a `server.php` script:
 require_once 'vendor/autoload.php';
 
 $app = \Desilva\Microserve\Microserve::boot(\App\Http\MyHttpKernel::class);
-$app->handle();
+$app->handle() // Process the request and create the response
+    ->send(); // Send the response to the client
 ```
 
 The `boot()` method will construct your Kernel, and then return an `Application` instance containing it.
