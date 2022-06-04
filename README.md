@@ -15,7 +15,7 @@ The name comes from it being based on [Pikoserve](https://github.com/caendesilva
 
 ## Usage
 
-Please see the example project in the [`docs`](docs/README.md) directory.
+Please see the example project in the [`docs`](docs/installation.md) directory.
 
 This project is also used for the server core of the [HydePHP Realtime Compiler (V2.0)](https://github.com/hydephp/realtime-compiler),
 I recommend you take a look at the implementation there as well.
