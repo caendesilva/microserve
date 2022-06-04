@@ -73,3 +73,7 @@ class HttpKernel implements HttpKernelInterface
     }
 }
 ```
+
+### Troubleshooting
+
+In 99% of the cases, you forgot to call the `->send()` method on your `Response` instance. For the other 1%, open a ticket and let me know.
