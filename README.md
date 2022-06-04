@@ -16,6 +16,16 @@ with the requests and responses in an abstracted object-oriented way that you ma
 
 The name comes from it being based on [Pikoserve](https://github.com/caendesilva/pikoserve).
 
+## Installation
+Install the package using Composer ([desilva/microserve](https://packagist.org/packages/desilva/microserve))
+
+```bash
+composer require desilva/microserve
+```
+
+
+
+
 ## Usage
 
 Please see the example project in the [`docs`](docs/installation.md) directory.
