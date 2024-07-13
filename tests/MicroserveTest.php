@@ -16,7 +16,7 @@ class MicroserveTest extends TestCase
         $_SERVER['REQUEST_URI'] = '/test';
 
         $kernelClass = get_class($this->getMockForAbstractClass(HttpKernel::class));
-        
+
         $app = Microserve::boot($kernelClass);
 
         $this->assertInstanceOf(Application::class, $app);
