@@ -12,6 +12,9 @@ class HttpKernelTest extends TestCase
 {
     public function testHandle()
     {
+        $_SERVER['REQUEST_METHOD'] = 'GET';
+        $_SERVER['REQUEST_URI'] = '/test';
+
         $kernel = $this->getMockForAbstractClass(HttpKernel::class);
         $request = new Request();
 

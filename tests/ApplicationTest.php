@@ -12,6 +12,9 @@ class ApplicationTest extends TestCase
 {
     public function testHandle()
     {
+        $_SERVER['REQUEST_METHOD'] = 'GET';
+        $_SERVER['REQUEST_URI'] = '/test';
+
         $mockKernel = $this->createMock(HttpKernelInterface::class);
         $mockKernel->expects($this->once())
             ->method('handle')
