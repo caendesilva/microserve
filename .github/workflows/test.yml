@@ -40,3 +40,88 @@ jobs:
 
       - name: Run tests with coverage
         run: vendor/bin/phpunit --coverage-text --colors=always
+
+  feature-tests:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+
+      - name: Validate composer.json and composer.lock
+        run: composer validate --strict
+
+      - name: Install dependencies
+        run: composer install --prefer-dist --no-progress
+
+      - name: Setup example project
+        run: |
+          mkdir example
+          cd example
+          composer init --name=example/app --description="Example Microserve App" --author="Test User <test@example.com>" --type=project --require="desilva/microserve:@dev" -n
+          composer config repositories.microserve '{"type": "path", "url": "../", "options": {"symlink": true}}'
+          composer update
+          echo '<?php
+          require_once "vendor/autoload.php";
+          use Desilva\Microserve\Microserve;
+          use Desilva\Microserve\HttpKernel;
+          use Desilva\Microserve\Request;
+          use Desilva\Microserve\Response;
+          class ExampleKernel extends HttpKernel {
+              public function handle(Request $request): Response {
+                  if ($request->path === "/") {
+                      return Response::make(200, "OK", ["body" => "Hello World!"]);
+                  }
+                  if ($request->path === "/json") {
+                      return new \Desilva\Microserve\JsonResponse(200, "OK", ["body" => ["message" => "Hello JSON!"]]);
+                  }
+                  return Response::make(404, "Not Found", ["body" => "404 Not Found"]);
+              }
+          }
+          $app = Microserve::boot(ExampleKernel::class);
+          $app->handle()->send();
+          ' > index.php
+
+      - name: Start PHP server
+        run: php -S localhost:8000 index.php &
+        working-directory: example
+
+      - name: Wait for server to start
+        run: sleep 2
+
+      - name: Test root endpoint
+        run: |
+          response=$(curl -s -o /dev/null -w "%{http_code}" http://localhost:8000/)
+          body=$(curl -s http://localhost:8000/)
+          if [ "$response" = "200" ] && [ "$body" = "Hello World!" ]; then
+            echo "Root endpoint test passed"
+          else
+            echo "Root endpoint test failed"
+            exit 1
+          fi
+
+      - name: Test JSON endpoint
+        run: |
+          response=$(curl -s -o /dev/null -w "%{http_code}" http://localhost:8000/json)
+          body=$(curl -s http://localhost:8000/json)
+          if [ "$response" = "200" ] && [ "$body" = '{"statusCode":200,"statusMessage":"OK","body":{"message":"Hello JSON!"}}' ]; then
+            echo "JSON endpoint test passed"
+          else
+            echo "JSON endpoint test failed"
+            exit 1
+          fi
+
+      - name: Test 404 endpoint
+        run: |
+          response=$(curl -s -o /dev/null -w "%{http_code}" http://localhost:8000/nonexistent)
+          body=$(curl -s http://localhost:8000/nonexistent)
+          if [ "$response" = "404" ] && [ "$body" = "404 Not Found" ]; then
+            echo "404 endpoint test passed"
+          else
+            echo "404 endpoint test failed"
+            exit 1
+          fi
