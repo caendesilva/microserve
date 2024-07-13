@@ -39,4 +39,4 @@ jobs:
         run: composer install
 
       - name: Run tests with coverage
-        run: vendor/bin/phpunit --coverage
+        run: vendor/bin/phpunit --coverage --coverage-text
