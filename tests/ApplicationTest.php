@@ -1,10 +1,9 @@
 <?php
 
-use PHPUnit\Framework\TestCase;
 use Desilva\Microserve\Application;
 use Desilva\Microserve\Contracts\HttpKernelInterface;
-use Desilva\Microserve\Request;
 use Desilva\Microserve\Response;
+use PHPUnit\Framework\TestCase;
 
 /**
  * @covers \Desilva\Microserve\Application
