@@ -1,19 +1,17 @@
-# Microserve - Pikoserve 2.0 Framework
+# Microserve - API for creating PHP application servers.
+
+### Minimal. Agnostic. Zero dependencies.
+
+## About
 
 ![](https://img.shields.io/packagist/dt/desilva/microserve)
 ![](https://img.shields.io/packagist/v/desilva/microserve)
 
-An extension of Pikoserve, providing an API for creating PHP application servers.
-
-Minimal. Agnostic. Zero dependencies.
-
-## About
 
 This package provides a framework for creating application servers and is intended to be
 used as a starting point for other packages. Think if this as a layer between the low-level
 PHP server implementations and your higher level application logic, allowing you to interact
 with the requests and responses in an abstracted object-oriented way that you may be used to.
-
 The name comes from it being based on [Pikoserve](https://github.com/caendesilva/pikoserve).
 
 ## Installation
@@ -22,8 +20,6 @@ Install the package using Composer ([desilva/microserve](https://packagist.org/p
 ```bash
 composer require desilva/microserve
 ```
-
-
 
 
 ## Usage
