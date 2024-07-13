@@ -29,7 +29,6 @@ class ResponseTest extends TestCase
         $response = new Response();
         $response->withHeaders(['X-Test' => 'Value']);
 
-        // Instead of using xdebug_get_headers(), we'll check if the header was set
         $this->assertTrue(headers_sent(), 'Headers should be sent');
     }
 

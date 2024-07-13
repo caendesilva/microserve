@@ -26,7 +26,6 @@ class JsonResponseTest extends TestCase
 
         $this->assertEquals(json_encode($response->__get()), $output);
         
-        // Instead of using xdebug_get_headers(), we'll check if the header was set
         $this->assertTrue(headers_sent(), 'Headers should be sent');
     }
 }
