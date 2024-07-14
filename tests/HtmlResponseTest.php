@@ -25,7 +25,7 @@ class HtmlResponseTest extends TestCase
         $this->assertSame($response, $result);
 
         $headers = xdebug_get_headers();
-        $this->assertContains('Content-Type: text/html', $headers);
+        $this->assertContains('Content-type: text/html;charset=UTF-8', $headers);
         $this->assertContains('Content-Length: '.strlen($htmlContent), $headers);
     }
 
