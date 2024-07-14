@@ -81,7 +81,7 @@ jobs:
               }
           }
           $app = Microserve::boot(ExampleKernel::class);
-          $app->handle()->send();
+          $app->handle();
           ' > index.php
 
       - name: Start PHP server
