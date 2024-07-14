@@ -78,6 +78,7 @@ Note: The application will automatically send the response created by the Kernel
 ### New Features
 - Headers are now buffered in the Response class instead of being sent immediately.
 - New protected `sendHeaders()` method added to the Response class for sending all buffered headers.
+- New `HtmlResponse` class added for handling HTML responses with appropriate headers.
 
 ### Improvements
 - The `Response::send()` and `JsonResponse::send()` methods now return `$this`, allowing for method chaining and providing more flexibility when working with responses.
