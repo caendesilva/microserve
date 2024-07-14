@@ -75,7 +75,7 @@ jobs:
                       return Response::make(200, "OK", ["body" => "Hello World!"]);
                   }
                   if ($request->path === "/json") {
-                      return (new \Desilva\Microserve\JsonResponse(200, "OK", ["body" => ["message" => "Hello JSON!"]]))->send();
+                      return new \Desilva\Microserve\JsonResponse(200, "OK", ["body" => ["message" => "Hello JSON!"]]);
                   }
                   return Response::make(404, "Not Found", ["body" => "404 Not Found"]);
               }
