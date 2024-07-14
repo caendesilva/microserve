@@ -17,6 +17,6 @@ class Application
 
     public function handle(): Response
     {
-        return $this->kernel->handle($this->request);
+        return $this->kernel->handle($this->request)->send();
     }
 }

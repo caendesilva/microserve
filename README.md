@@ -46,8 +46,7 @@ Here's an example of a `server.php` script:
 require_once 'vendor/autoload.php';
 
 $app = \Desilva\Microserve\Microserve::boot(\App\Http\MyHttpKernel::class);
-$app->handle() // Process the request and create the response
-    ->send(); // Send the response to the client
+$app->handle(); // Process the request to create and send the response
 ```
 
 The `boot()` method will construct your Kernel, and then return an `Application` instance containing it.
@@ -68,14 +67,13 @@ class HttpKernel implements HttpKernelInterface
 }
 ```
 
-### Troubleshooting
-
-In 99% of the cases, you forgot to call the `->send()` method on your `Response` instance. For the other 1%, open a ticket and let me know.
+Note: The application will automatically send the response created by the Kernel.
 
 ## Release Notes for v2.0
 
-### Breaking Changes
-- The `ResponseInterface::send()` method now returns `static` instead of `void`. This change affects the interface and all implementing classes.
+### Breaking/Major Changes
+- Breaking: The `ResponseInterface::send()` method now returns `static` instead of `void`. This change affects the interface and all implementing classes.
+- Major: The Application class now automatically sends the response returned by the Kernel.
 
 ### New Features
 - Headers are now buffered in the Response class instead of being sent immediately.
@@ -83,6 +81,7 @@ In 99% of the cases, you forgot to call the `->send()` method on your `Response`
 
 ### Improvements
 - The `Response::send()` and `JsonResponse::send()` methods now return `$this`, allowing for method chaining and providing more flexibility when working with responses.
+- The application now automatically sends the response returned by the Kernel, removing the need to call `send()` manually. This fixes a common "gotcha" where users forget to call `send()` after creating a response.
 - Type hints now use `static` returns instead of `self` to more accurately reflect the return type of the methods.
 - More flexibility in manipulating headers throughout the response lifecycle.
 - Better alignment with common practices in modern PHP frameworks.
@@ -106,6 +105,27 @@ If you're upgrading from v1.x to v2.0, here are the key changes you need to be a
    ```
 
 Please review your codebase for any implementations of `ResponseInterface` and update them accordingly. This change is made to allow for method chaining and provide more flexibility when working with responses, and to allow for working with sent responses in a more fluent way.
+
+#### Response Creation and Sending
+
+The `Application` class is now responsible for sending the response after the kernel handles the request, meaning you should no longer to call `send()` manually after creating a response.
+
+Example of updated usage:
+
+```php
+// In your HttpKernel or similar class
+public function handle(Request $request): Response
+{
+    return Response::make(200, 'OK', ['body' => 'Hello World!']);
+    // OR: return new Response(200, 'OK', ['body' => 'Hello World!']);
+}
+
+// In your application entry point
+$app = new Application(new MyHttpKernel());
+$app->handle(); // This will now send the response
+```
+
+Please review your codebase for any cases where you send there responses manually, as it's no longer necessary to call `send()` after creating a response. The application will automatically send the response returned by the kernel.
 
 #### Header Sending Changes
 
