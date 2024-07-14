@@ -59,11 +59,10 @@ class Response implements ResponseInterface
     }
 
     /**
-     * Static facade to create a new Response object.
-     * You will still need to call send() to actually send the response.
+     * Static facade to create a new Response object and send it immediately.
      */
     public static function make(int $statusCode = 200, string $statusMessage = 'OK', array $data = []): static
     {
-        return new static($statusCode, $statusMessage, $data);
+        return (new static($statusCode, $statusMessage, $data))->send();
     }
 }
