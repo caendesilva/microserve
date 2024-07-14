@@ -83,6 +83,7 @@ In 99% of the cases, you forgot to call the `->send()` method on your `Response`
 
 ### Improvements
 - The `Response::send()` and `JsonResponse::send()` methods now return `$this`, allowing for method chaining and providing more flexibility when working with responses.
+- Type hints now use `static` returns instead of `self` to more accurately reflect the return type of the methods.
 - More flexibility in manipulating headers throughout the response lifecycle.
 - Better alignment with common practices in modern PHP frameworks.
 
