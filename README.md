@@ -7,7 +7,6 @@
 ![](https://img.shields.io/packagist/dt/desilva/microserve)
 ![](https://img.shields.io/packagist/v/desilva/microserve)
 
-
 This package provides a framework for creating application servers and is intended to be
 used as a starting point for other packages. Think if this as a layer between the low-level
 PHP server implementations and your higher level application logic, allowing you to interact
@@ -20,7 +19,6 @@ Install the package using Composer ([desilva/microserve](https://packagist.org/p
 ```bash
 composer require desilva/microserve
 ```
-
 
 ## Usage
 
@@ -39,7 +37,7 @@ or similar to handle the requests.
 
 #### General implementation
 
-The recommended way to implement a server  is to route all HTTP requests to the `server.php`script.
+The recommended way to implement a server is to route all HTTP requests to the `server.php` script.
 This script should register the Composer autoloader, run the `bootstrap.php` script, then finally
 create a new `Application` instance to capture and handle the incoming HTTP request.
 
