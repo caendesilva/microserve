@@ -93,7 +93,7 @@ If you're upgrading from v1.x to v2.0, here are the key changes you need to be a
 
 #### Response::send() Method Return Type
 
-1. The `send()` method in the `ResponseInterface` now has a return type of `static`. This is a breaking change as is requires all implementing classes to update their method signature.
+1. The `send()` method in the `ResponseInterface` now has a return type of `static`. This is a breaking change as it requires all implementing classes to update their method signature.
 2. If you have any custom classes implementing `ResponseInterface`, you must update their `send()` method to return `static`:
 
    ```php
@@ -109,7 +109,7 @@ Please review your codebase for any implementations of `ResponseInterface` and u
 
 #### Response Creation and Sending
 
-The `Application` class is now responsible for sending the response after the kernel handles the request, meaning you should no longer to call `send()` manually after creating a response.
+The `Application` class is now responsible for sending the response after the kernel handles the request, meaning you should no longer call `send()` manually after creating a response.
 
 Example of updated usage:
 
@@ -126,7 +126,7 @@ $app = new Application(new MyHttpKernel());
 $app->handle(); // This will now send the response
 ```
 
-Please review your codebase for any cases where you send there responses manually, as it's no longer necessary to call `send()` after creating a response. The application will automatically send the response returned by the kernel.
+Please review your codebase for any cases where you send responses manually, as it's no longer necessary to call `send()` after creating a response. The application will automatically send the response returned by the kernel.
 
 #### Header Sending Changes
 
