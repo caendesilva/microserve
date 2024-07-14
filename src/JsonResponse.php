@@ -9,7 +9,7 @@ class JsonResponse extends Response
         return json_encode($this->responseData);
     }
 
-    public function send(): self
+    public function send(): static
     {
         $this->withHeaders([
             'Content-Type' => 'application/json',

@@ -75,7 +75,7 @@ In 99% of the cases, you forgot to call the `->send()` method on your `Response`
 ## Release Notes for v2.0
 
 ### Breaking Changes
-- The `ResponseInterface::send()` method now returns `self` instead of `void`. This change affects the interface and all implementing classes.
+- The `ResponseInterface::send()` method now returns `static` instead of `void`. This change affects the interface and all implementing classes.
 
 ### New Features
 - Headers are now buffered in the Response class instead of being sent immediately.
@@ -92,11 +92,11 @@ If you're upgrading from v1.x to v2.0, here are the key changes you need to be a
 
 #### Response::send() Method Return Type
 
-1. The `send()` method in the `ResponseInterface` now has a return type of `self`. This is a breaking change as is requires all implementing classes to update their method signature.
-2. If you have any custom classes implementing `ResponseInterface`, you must update their `send()` method to return `self`:
+1. The `send()` method in the `ResponseInterface` now has a return type of `static`. This is a breaking change as is requires all implementing classes to update their method signature.
+2. If you have any custom classes implementing `ResponseInterface`, you must update their `send()` method to return `static`:
 
    ```php
-   public function send(): self
+   public function send(): static
    {
        // Your implementation
 
