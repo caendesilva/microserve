@@ -74,17 +74,54 @@ In 99% of the cases, you forgot to call the `->send()` method on your `Response`
 
 ## Release Notes for v2.0
 
+### Breaking Changes
+- The `ResponseInterface::send()` method now returns `self` instead of `void`. This change affects the interface and all implementing classes.
+
 ### New Features
 - Headers are now buffered in the Response class instead of being sent immediately.
 - New protected `sendHeaders()` method added to the Response class for sending all buffered headers.
 
 ### Improvements
+- The `Response::send()` and `JsonResponse::send()` methods now return `$this`, allowing for method chaining and providing more flexibility when working with responses.
 - More flexibility in manipulating headers throughout the response lifecycle.
 - Better alignment with common practices in modern PHP frameworks.
 
 ### Upgrade Guide
 
 If you're upgrading from v1.x to v2.0, here are the key changes you need to be aware of:
+
+#### Response::send() Method Return Type
+
+1. The `send()` method in the `ResponseInterface` now has a return type of `self`. This is a breaking change.
+
+2. If you have any custom classes implementing `ResponseInterface`, you must update their `send()` method to return `self`:
+
+   ```php
+   public function send(): self
+   {
+       // Your implementation
+       return $this;
+   }
+   ```
+
+3. The `Response::send()` and `JsonResponse::send()` methods now return the response object itself. While this doesn't require modifications to existing code that doesn't use the return value, you can now take advantage of this change to chain methods or perform operations after sending the response if needed.
+
+Example of new usage:
+```php
+$response->send()->logResponse();
+```
+
+4. If you're type-hinting `ResponseInterface` in your code, be aware that the `send()` method now returns an instance of the response, which you can use if needed:
+
+   ```php
+   function handleResponse(ResponseInterface $response)
+   {
+       $sentResponse = $response->send();
+       // You can now use $sentResponse if needed
+   }
+   ```
+
+Due to the interface change, this update is versioned as 3.0 to indicate a breaking change. Please review your codebase for any implementations of `ResponseInterface` and update them accordingly.
 
 1. The `withHeaders()` method now adds headers to a buffer instead of sending them immediately. If you were relying on immediate header sending, you may need to adjust your code.
 2. Headers are now sent when the `send()` method is called on the Response object. Make sure you're calling `send()` at the appropriate time in your application lifecycle.
