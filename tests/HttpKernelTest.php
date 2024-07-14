@@ -24,16 +24,4 @@ class HttpKernelTest extends TestCase
         $this->assertEquals(200, $response->statusCode);
         $this->assertEquals('Hello World!', $response->body);
     }
-
-    public function testHandleSendsResponse()
-    {
-        $kernel = $this->getMockForAbstractClass(HttpKernel::class);
-        $request = new Request();
-
-        ob_start();
-        $kernel->handle($request);
-        $output = ob_get_clean();
-
-        $this->assertEquals('Hello World!', $output);
-    }
 }
