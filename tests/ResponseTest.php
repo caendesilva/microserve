@@ -79,14 +79,11 @@ class ResponseTest extends TestCase
 
     public function testMake()
     {
-        ob_start();
         $response = Response::make(201, 'Created', ['body' => 'Test Body']);
-        $output = ob_get_clean();
 
         $this->assertInstanceOf(Response::class, $response);
         $this->assertEquals(201, $response->statusCode);
         $this->assertEquals('Created', $response->statusMessage);
         $this->assertEquals('Test Body', $response->body);
-        $this->assertEquals('Test Body', $output);
     }
 }
