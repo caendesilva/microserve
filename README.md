@@ -67,15 +67,13 @@ class HttpKernel implements HttpKernelInterface
 }
 ```
 
-Note: If you use Response::make() it will automatically send the response to the client. 
-If you don't want this, you can instead update your kernel handle method to use `(new Response(...))`,
-and then call the `send()` method manually on the response object returned from the handle method.
+Note: The application will automatically send the response created by the Kernel.
 
 ## Release Notes for v2.0
 
 ### Breaking/Major Changes
 - Breaking: The `ResponseInterface::send()` method now returns `static` instead of `void`. This change affects the interface and all implementing classes.
-- Major: `Response::make()` now automatically sends the response. This change affects how responses are created and sent using the static `make()` method.
+- Major: The Application class now automatically sends the response returned by the Kernel.
 
 ### New Features
 - Headers are now buffered in the Response class instead of being sent immediately.
@@ -83,7 +81,7 @@ and then call the `send()` method manually on the response object returned from 
 
 ### Improvements
 - The `Response::send()` and `JsonResponse::send()` methods now return `$this`, allowing for method chaining and providing more flexibility when working with responses.
-- The `Response::make()` method now sends the response immediately after creating it. This fixes a common "gotcha" where users forget to call `send()` after creating a response.
+- The application now automatically sends the response returned by the Kernel, removing the need to call `send()` manually. This fixes a common "gotcha" where users forget to call `send()` after creating a response.
 - Type hints now use `static` returns instead of `self` to more accurately reflect the return type of the methods.
 - More flexibility in manipulating headers throughout the response lifecycle.
 - Better alignment with common practices in modern PHP frameworks.
@@ -108,24 +106,26 @@ If you're upgrading from v1.x to v2.0, here are the key changes you need to be a
 
 Please review your codebase for any implementations of `ResponseInterface` and update them accordingly. This change is made to allow for method chaining and provide more flexibility when working with responses, and to allow for working with sent responses in a more fluent way.
 
-#### Response::make() Method Behavior
+#### Response Creation and Sending
 
-1. The `make()` method in the `Response` class now automatically sends the response. This is a major change as it affects how responses are created and sent.
-2. If you were previously using `Response::make()->send()`, you should now use just `Response::make()` so you don't try to send the response twice.
-3. If you need to create a response without sending it immediately, use the constructor `new Response()` instead of `Response::make()`.
+The `Application` class is now responsible for sending the response after the kernel handles the request, meaning you should no longer to call `send()` manually after creating a response.
 
 Example of updated usage:
 
 ```php
-// Old way
-$response = Response::make(200, 'OK', ['body' => 'Hello World!']);
-$response->send();
+// In your HttpKernel or similar class
+public function handle(Request $request): Response
+{
+    return Response::make(200, 'OK', ['body' => 'Hello World!']);
+    // OR: return new Response(200, 'OK', ['body' => 'Hello World!']);
+}
 
-// New way
-Response::make(200, 'OK', ['body' => 'Hello World!']);
+// In your application entry point
+$app = new Application(new MyHttpKernel());
+$app->handle(); // This will now send the response
 ```
 
-Please review your codebase for any uses of `Response::make()` and update them accordingly. This change is made to simplify the API and provide a more intuitive way of creating and sending responses.
+Please review your codebase for any cases where you send there responses manually, as it's no longer necessary to call `send()` after creating a response. The application will automatically send the response returned by the kernel.
 
 #### Header Sending Changes
 
