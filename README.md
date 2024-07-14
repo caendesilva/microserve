@@ -13,11 +13,6 @@ PHP server implementations and your higher level application logic, allowing you
 with the requests and responses in an abstracted object-oriented way that you may be used to.
 The name comes from it being based on [Pikoserve](https://github.com/caendesilva/pikoserve).
 
-## End of Life Notice for v1.x
-
-As Microserve v2.0 is now available, the v1.x version range is now considered legacy and will reach end of life on 2024-12-31. 
-General bugfix support will be provided until this date. However, security fixes will continue indefinitely.
-
 ## Installation
 Install the package using Composer ([desilva/microserve](https://packagist.org/packages/desilva/microserve))
 
