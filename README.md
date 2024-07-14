@@ -92,36 +92,19 @@ If you're upgrading from v1.x to v2.0, here are the key changes you need to be a
 
 #### Response::send() Method Return Type
 
-1. The `send()` method in the `ResponseInterface` now has a return type of `self`. This is a breaking change.
-
+1. The `send()` method in the `ResponseInterface` now has a return type of `self`. This is a breaking change as is requires all implementing classes to update their method signature.
 2. If you have any custom classes implementing `ResponseInterface`, you must update their `send()` method to return `self`:
 
    ```php
    public function send(): self
    {
        // Your implementation
+
        return $this;
    }
    ```
 
-3. The `Response::send()` and `JsonResponse::send()` methods now return the response object itself. While this doesn't require modifications to existing code that doesn't use the return value, you can now take advantage of this change to chain methods or perform operations after sending the response if needed.
-
-Example of new usage:
-```php
-$response->send()->logResponse();
-```
-
-4. If you're type-hinting `ResponseInterface` in your code, be aware that the `send()` method now returns an instance of the response, which you can use if needed:
-
-   ```php
-   function handleResponse(ResponseInterface $response)
-   {
-       $sentResponse = $response->send();
-       // You can now use $sentResponse if needed
-   }
-   ```
-
-Due to the interface change, this update is versioned as 3.0 to indicate a breaking change. Please review your codebase for any implementations of `ResponseInterface` and update them accordingly.
+Please review your codebase for any implementations of `ResponseInterface` and update them accordingly. This change is made to allow for method chaining and provide more flexibility when working with responses, and to allow for working with sent responses in a more fluent way.
 
 #### Header Sending Changes
 
