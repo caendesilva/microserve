@@ -51,10 +51,10 @@ class ResponseTest extends TestCase
 
         $this->assertEquals('value', $response->custom);
         $this->assertEquals([
-            'statusCode'    => 200,
+            'statusCode' => 200,
             'statusMessage' => 'OK',
-            'body'          => '',
-            'custom'        => 'value',
+            'body' => '',
+            'custom' => 'value',
         ], $response->__get());
     }
 

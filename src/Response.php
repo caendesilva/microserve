@@ -13,9 +13,9 @@ class Response implements ResponseInterface
         header("HTTP/1.1 $statusCode $statusMessage");
 
         $this->responseData = array_merge([
-            'statusCode'    => $statusCode,
+            'statusCode' => $statusCode,
             'statusMessage' => $statusMessage,
-            'body'          => '',
+            'body' => '',
         ], $data);
     }
 

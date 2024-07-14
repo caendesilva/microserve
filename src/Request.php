@@ -43,8 +43,8 @@ class Request implements RequestInterface
     {
         return [
             'method' => $this->method,
-            'path'   => $this->path,
-            'data'   => $this->data,
+            'path' => $this->path,
+            'data' => $this->data,
         ];
     }
 }

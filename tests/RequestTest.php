@@ -57,8 +57,8 @@ class RequestTest extends TestCase
 
         $this->assertEquals([
             'method' => 'GET',
-            'path'   => '/test',
-            'data'   => ['key' => 'value'],
+            'path' => '/test',
+            'data' => ['key' => 'value'],
         ], $serialized);
     }
 }
