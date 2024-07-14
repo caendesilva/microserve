@@ -123,9 +123,13 @@ $response->send()->logResponse();
 
 Due to the interface change, this update is versioned as 3.0 to indicate a breaking change. Please review your codebase for any implementations of `ResponseInterface` and update them accordingly.
 
+#### Header Sending Changes
+
 1. The `withHeaders()` method now adds headers to a buffer instead of sending them immediately. If you were relying on immediate header sending, you may need to adjust your code.
 2. Headers are now sent when the `send()` method is called on the Response object. Make sure you're calling `send()` at the appropriate time in your application lifecycle.
 3. If you've extended the Response or JsonResponse classes, you may need to update your implementations to work with the new buffered header approach.
 4. Update any tests that were checking for immediate header sending. You may need to use reflection or mock the header functions to test the new buffering behavior.
+
+#### Conclusion
 
 If you encounter any issues during the upgrade process, please open an issue on the GitHub repository.
