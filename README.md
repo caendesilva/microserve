@@ -74,11 +74,15 @@ In 99% of the cases, you forgot to call the `->send()` method on your `Response`
 
 ## Release Notes for v2.0
 
+### Breaking Changes
+- The `ResponseInterface::send()` method now returns `self` instead of `void`. This change affects the interface and all implementing classes.
+
 ### New Features
 - Headers are now buffered in the Response class instead of being sent immediately.
 - New protected `sendHeaders()` method added to the Response class for sending all buffered headers.
 
 ### Improvements
+- The `Response::send()` and `JsonResponse::send()` methods now return `$this`, allowing for method chaining and providing more flexibility when working with responses.
 - More flexibility in manipulating headers throughout the response lifecycle.
 - Better alignment with common practices in modern PHP frameworks.
 
@@ -86,9 +90,29 @@ In 99% of the cases, you forgot to call the `->send()` method on your `Response`
 
 If you're upgrading from v1.x to v2.0, here are the key changes you need to be aware of:
 
+#### Response::send() Method Return Type
+
+1. The `send()` method in the `ResponseInterface` now has a return type of `self`. This is a breaking change as is requires all implementing classes to update their method signature.
+2. If you have any custom classes implementing `ResponseInterface`, you must update their `send()` method to return `self`:
+
+   ```php
+   public function send(): self
+   {
+       // Your implementation
+
+       return $this;
+   }
+   ```
+
+Please review your codebase for any implementations of `ResponseInterface` and update them accordingly. This change is made to allow for method chaining and provide more flexibility when working with responses, and to allow for working with sent responses in a more fluent way.
+
+#### Header Sending Changes
+
 1. The `withHeaders()` method now adds headers to a buffer instead of sending them immediately. If you were relying on immediate header sending, you may need to adjust your code.
 2. Headers are now sent when the `send()` method is called on the Response object. Make sure you're calling `send()` at the appropriate time in your application lifecycle.
 3. If you've extended the Response or JsonResponse classes, you may need to update your implementations to work with the new buffered header approach.
 4. Update any tests that were checking for immediate header sending. You may need to use reflection or mock the header functions to test the new buffering behavior.
+
+#### Conclusion
 
 If you encounter any issues during the upgrade process, please open an issue on the GitHub repository.

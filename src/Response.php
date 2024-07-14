@@ -40,11 +40,13 @@ class Response implements ResponseInterface
         }
     }
 
-    public function send(): void
+    public function send(): self
     {
         $this->sendHeaders();
 
         echo $this;
+
+        return $this;
     }
 
     public function __get(?string $key = null): mixed

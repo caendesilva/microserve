@@ -9,12 +9,12 @@ class JsonResponse extends Response
         return json_encode($this->responseData);
     }
 
-    public function send(): void
+    public function send(): self
     {
         $this->withHeaders([
             'Content-Type' => 'application/json',
         ]);
 
-        parent::send();
+        return parent::send();
     }
 }

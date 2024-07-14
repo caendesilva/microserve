@@ -8,5 +8,5 @@ interface ResponseInterface
 
     public function __toString(): string;
 
-    public function send(): void;
+    public function send(): self;
 }
