@@ -134,6 +134,20 @@ Please review your codebase for any cases where you send there responses manuall
 3. If you've extended the Response or JsonResponse classes, you may need to update your implementations to work with the new buffered header approach.
 4. Update any tests that were checking for immediate header sending. You may need to use reflection or mock the header functions to test the new buffering behavior.
 
+#### New HtmlResponse Class
+
+A new `HtmlResponse` class has been added to handle HTML responses. This class automatically sets the appropriate Content-Type and Content-Length headers for HTML content. If you're returning HTML responses, consider using this new class:
+
+```php
+use Desilva\Microserve\HtmlResponse;
+
+// In your HttpKernel or similar class
+public function handle(Request $request): Response
+{
+    return new HtmlResponse(200, 'OK', ['body' => '<html><body>Hello World!</body></html>']);
+}
+```
+
 #### Conclusion
 
 If you encounter any issues during the upgrade process, please open an issue on the GitHub repository.
