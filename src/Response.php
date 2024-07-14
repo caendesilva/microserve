@@ -23,7 +23,7 @@ class Response implements ResponseInterface
         return $this->responseData['body'];
     }
 
-    public function withHeaders(array $headers): self
+    public function withHeaders(array $headers): static
     {
         $this->headers = array_merge($this->headers, $headers);
 
@@ -40,7 +40,7 @@ class Response implements ResponseInterface
         }
     }
 
-    public function send(): self
+    public function send(): static
     {
         $this->sendHeaders();
 
