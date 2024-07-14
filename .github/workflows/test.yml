@@ -88,9 +88,6 @@ jobs:
         run: php -S localhost:8000 index.php &
         working-directory: example
 
-      - name: Wait for server to start
-        run: sleep 2
-
       - name: Test root endpoint
         run: |
           response=$(curl -s -o /dev/null -w "%{http_code}" http://localhost:8000/)
