@@ -51,8 +51,7 @@ Here's an example of a `server.php` script:
 require_once 'vendor/autoload.php';
 
 $app = \Desilva\Microserve\Microserve::boot(\App\Http\MyHttpKernel::class);
-$app->handle() // Process the request and create the response
-    ->send(); // Send the response to the client
+$app->handle(); // Process the request to create and send the response
 ```
 
 The `boot()` method will construct your Kernel, and then return an `Application` instance containing it.
@@ -73,6 +72,88 @@ class HttpKernel implements HttpKernelInterface
 }
 ```
 
-### Troubleshooting
+Note: The application will automatically send the response created by the Kernel.
 
-In 99% of the cases, you forgot to call the `->send()` method on your `Response` instance. For the other 1%, open a ticket and let me know.
+## Release Notes for v2.0
+
+### Breaking/Major Changes
+- Breaking: The `ResponseInterface::send()` method now returns `static` instead of `void`. This change affects the interface and all implementing classes.
+- Major: The Application class now automatically sends the response returned by the Kernel.
+
+### New Features
+- Headers are now buffered in the Response class instead of being sent immediately.
+- New protected `sendHeaders()` method added to the Response class for sending all buffered headers.
+- New `HtmlResponse` class added for handling HTML responses with appropriate headers.
+
+### Improvements
+- The `Response::send()` and `JsonResponse::send()` methods now return `$this`, allowing for method chaining and providing more flexibility when working with responses.
+- The application now automatically sends the response returned by the Kernel, removing the need to call `send()` manually. This fixes a common "gotcha" where users forget to call `send()` after creating a response.
+- Type hints now use `static` returns instead of `self` to more accurately reflect the return type of the methods.
+- More flexibility in manipulating headers throughout the response lifecycle.
+- Better alignment with common practices in modern PHP frameworks.
+
+### Upgrade Guide
+
+If you're upgrading from v1.x to v2.0, here are the key changes you need to be aware of:
+
+#### Response::send() Method Return Type
+
+1. The `send()` method in the `ResponseInterface` now has a return type of `static`. This is a breaking change as it requires all implementing classes to update their method signature.
+2. If you have any custom classes implementing `ResponseInterface`, you must update their `send()` method to return `static`:
+
+   ```php
+   public function send(): static
+   {
+       // Your implementation
+
+       return $this;
+   }
+   ```
+
+Please review your codebase for any implementations of `ResponseInterface` and update them accordingly. This change is made to allow for method chaining and provide more flexibility when working with responses, and to allow for working with sent responses in a more fluent way.
+
+#### Response Creation and Sending
+
+The `Application` class is now responsible for sending the response after the kernel handles the request, meaning you should no longer call `send()` manually after creating a response.
+
+Example of updated usage:
+
+```php
+// In your HttpKernel or similar class
+public function handle(Request $request): Response
+{
+    return Response::make(200, 'OK', ['body' => 'Hello World!']);
+    // OR: return new Response(200, 'OK', ['body' => 'Hello World!']);
+}
+
+// In your application entry point
+$app = new Application(new MyHttpKernel());
+$app->handle(); // This will now send the response
+```
+
+Please review your codebase for any cases where you send responses manually, as it's no longer necessary to call `send()` after creating a response. The application will automatically send the response returned by the kernel.
+
+#### Header Sending Changes
+
+1. The `withHeaders()` method now adds headers to a buffer instead of sending them immediately. If you were relying on immediate header sending, you may need to adjust your code.
+2. Headers are now sent when the `send()` method is called on the Response object. Make sure you're calling `send()` at the appropriate time in your application lifecycle.
+3. If you've extended the Response or JsonResponse classes, you may need to update your implementations to work with the new buffered header approach.
+4. Update any tests that were checking for immediate header sending. You may need to use reflection or mock the header functions to test the new buffering behavior.
+
+#### New HtmlResponse Class
+
+A new `HtmlResponse` class has been added to handle HTML responses. This class automatically sets the appropriate Content-Type and Content-Length headers for HTML content. If you're returning HTML responses, consider using this new class:
+
+```php
+use Desilva\Microserve\HtmlResponse;
+
+// In your HttpKernel or similar class
+public function handle(Request $request): Response
+{
+    return new HtmlResponse(200, 'OK', ['body' => '<html><body>Hello World!</body></html>']);
+}
+```
+
+#### Conclusion
+
+If you encounter any issues during the upgrade process, please open an issue on the GitHub repository.

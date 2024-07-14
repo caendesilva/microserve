@@ -7,11 +7,10 @@ use Desilva\Microserve\Contracts\ResponseInterface;
 class Response implements ResponseInterface
 {
     protected array $responseData;
+    protected array $headers = [];
 
     public function __construct(int $statusCode = 200, string $statusMessage = 'OK', array $data = [])
     {
-        header("HTTP/1.1 $statusCode $statusMessage");
-
         $this->responseData = array_merge([
             'statusCode' => $statusCode,
             'statusMessage' => $statusMessage,
@@ -24,18 +23,30 @@ class Response implements ResponseInterface
         return $this->responseData['body'];
     }
 
-    public function withHeaders(array $headers): self
+    public function withHeaders(array $headers): static
     {
-        foreach ($headers as $header => $value) {
-            header("$header: $value");
-        }
+        $this->headers = array_merge($this->headers, $headers);
 
         return $this;
     }
 
-    public function send(): void
+    protected function sendHeaders(): void
     {
+        if (! headers_sent()) {
+            header("HTTP/1.1 {$this->responseData['statusCode']} {$this->responseData['statusMessage']}");
+            foreach ($this->headers as $name => $value) {
+                header("$name: $value");
+            }
+        }
+    }
+
+    public function send(): static
+    {
+        $this->sendHeaders();
+
         echo $this;
+
+        return $this;
     }
 
     public function __get(?string $key = null): mixed
@@ -49,7 +60,6 @@ class Response implements ResponseInterface
 
     /**
      * Static facade to create a new Response object.
-     * You will still need to call send() to actually send the response.
      */
     public static function make(int $statusCode = 200, string $statusMessage = 'OK', array $data = []): static
     {

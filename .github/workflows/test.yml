@@ -31,7 +31,7 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: '8.3'
-          coverage: pcov
+          coverage: xdebug
 
       - name: Install dependencies
         run: composer install
@@ -81,15 +81,12 @@ jobs:
               }
           }
           $app = Microserve::boot(ExampleKernel::class);
-          $app->handle()->send();
+          $app->handle();
           ' > index.php
 
       - name: Start PHP server
         run: php -S localhost:8000 index.php &
         working-directory: example
-
-      - name: Wait for server to start
-        run: sleep 2
 
       - name: Test root endpoint
         run: |

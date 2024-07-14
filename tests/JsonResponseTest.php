@@ -16,17 +16,34 @@ class JsonResponseTest extends TestCase
         $this->assertEquals(json_encode($response->__get()), $response->__toString());
     }
 
+    public function testWithHeaders()
+    {
+        $response = new JsonResponse();
+        $response->withHeaders(['X-Test' => 'Value']);
+
+        $reflector = new ReflectionClass($response);
+        $headersProperty = $reflector->getProperty('headers');
+        $headersProperty->setAccessible(true);
+
+        $this->assertEquals(['X-Test' => 'Value'], $headersProperty->getValue($response));
+    }
+
     public function testSend()
     {
+        if (! function_exists('xdebug_get_headers')) {
+            $this->markTestSkipped('Xdebug is not installed.');
+        }
+
         $response = new JsonResponse(200, 'OK', ['body' => ['key' => 'value']]);
 
         ob_start();
-        $response->send();
+        $result = $response->send();
         $output = ob_get_clean();
 
         $this->assertEquals(json_encode($response->__get()), $output);
+        $this->assertSame($response, $result);
 
-        // Headers are hard to test
-        // $this->assertTrue(headers_sent(), 'Headers should be sent');
+        $headers = xdebug_get_headers();
+        $this->assertContains('Content-Type: application/json', $headers);
     }
 }
