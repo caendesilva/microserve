@@ -7,11 +7,10 @@ use Desilva\Microserve\Contracts\ResponseInterface;
 class Response implements ResponseInterface
 {
     protected array $responseData;
+    protected array $headers = [];
 
     public function __construct(int $statusCode = 200, string $statusMessage = 'OK', array $data = [])
     {
-        header("HTTP/1.1 $statusCode $statusMessage");
-
         $this->responseData = array_merge([
             'statusCode' => $statusCode,
             'statusMessage' => $statusMessage,
@@ -26,15 +25,25 @@ class Response implements ResponseInterface
 
     public function withHeaders(array $headers): self
     {
-        foreach ($headers as $header => $value) {
-            header("$header: $value");
-        }
+        $this->headers = array_merge($this->headers, $headers);
 
         return $this;
     }
 
+    protected function sendHeaders(): void
+    {
+        if (! headers_sent()) {
+            header("HTTP/1.1 {$this->responseData['statusCode']} {$this->responseData['statusMessage']}");
+            foreach ($this->headers as $name => $value) {
+                header("$name: $value");
+            }
+        }
+    }
+
     public function send(): void
     {
+        $this->sendHeaders();
+
         echo $this;
     }
 

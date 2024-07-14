@@ -29,9 +29,27 @@ class ResponseTest extends TestCase
         $response = new Response();
         $response->withHeaders(['X-Test' => 'Value']);
 
-        // Headers are hard to test
-        $this->assertTrue(true);
-        // $this->assertTrue(headers_sent(), 'Headers should be sent');
+        $reflector = new ReflectionClass($response);
+        $headersProperty = $reflector->getProperty('headers');
+        $headersProperty->setAccessible(true);
+
+        $this->assertEquals(['X-Test' => 'Value'], $headersProperty->getValue($response));
+    }
+
+    public function testSendHeaders()
+    {
+        if (! function_exists('xdebug_get_headers')) {
+            $this->markTestSkipped('Xdebug is not installed.');
+        }
+
+        $response = new Response(200, 'OK');
+        $response->withHeaders(['X-Test' => 'Value']);
+
+        ob_start();
+        $response->send();
+        ob_end_clean();
+
+        $this->assertContains('X-Test: Value', xdebug_get_headers());
     }
 
     public function testSend()
