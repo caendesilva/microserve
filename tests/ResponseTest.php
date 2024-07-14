@@ -57,10 +57,11 @@ class ResponseTest extends TestCase
         $response = new Response(200, 'OK', ['body' => 'Test Body']);
 
         ob_start();
-        $response->send();
+        $result = $response->send();
         $output = ob_get_clean();
 
         $this->assertEquals('Test Body', $output);
+        $this->assertSame($response, $result);
     }
 
     public function testMagicGet()
