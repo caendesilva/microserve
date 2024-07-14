@@ -71,3 +71,24 @@ class HttpKernel implements HttpKernelInterface
 ### Troubleshooting
 
 In 99% of the cases, you forgot to call the `->send()` method on your `Response` instance. For the other 1%, open a ticket and let me know.
+
+## Release Notes for v2.0
+
+### New Features
+- Headers are now buffered in the Response class instead of being sent immediately.
+- New protected `sendHeaders()` method added to the Response class for sending all buffered headers.
+
+### Improvements
+- More flexibility in manipulating headers throughout the response lifecycle.
+- Better alignment with common practices in modern PHP frameworks.
+
+### Upgrade Guide
+
+If you're upgrading from v1.x to v2.0, here are the key changes you need to be aware of:
+
+1. The `withHeaders()` method now adds headers to a buffer instead of sending them immediately. If you were relying on immediate header sending, you may need to adjust your code.
+2. Headers are now sent when the `send()` method is called on the Response object. Make sure you're calling `send()` at the appropriate time in your application lifecycle.
+3. If you've extended the Response or JsonResponse classes, you may need to update your implementations to work with the new buffered header approach.
+4. Update any tests that were checking for immediate header sending. You may need to use reflection or mock the header functions to test the new buffering behavior.
+
+If you encounter any issues during the upgrade process, please open an issue on the GitHub repository.
