@@ -20,7 +20,7 @@ class Router
 
     public function handle(): Response
     {
-        if ($this->is('') || $this->is('/index')) {
+        if ($this->is('') || $this->is('index')) {
             return Response::make(200, 'OK', [
                 'body' => file_get_contents(__DIR__.'/views/index.html'),
             ]);
